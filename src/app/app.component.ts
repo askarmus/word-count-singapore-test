@@ -4,6 +4,7 @@ import { RestaurantService } from './Services/restaurant.srvice';
 import { Restourant } from './Model/restourant';
 import { WordCount } from './Model/word.count';
 import { TextServce } from './Services/text.servce';
+import { first } from 'rxjs/internal/operators/first';
 
 @Component({
   selector: 'app-root',
@@ -58,7 +59,9 @@ export class AppComponent {
 
   loadRestourant(url: string) {
     this.isBusy = true;
-    this.restaurantService.getRestourant(url).subscribe({
+    this.restaurantService.getRestourant(url)
+    .pipe(first())
+    .subscribe({
       next: (res: Restourant) => {
         this.result = this.textServce.countWrod(res.description);
         this.isBusy = false;
