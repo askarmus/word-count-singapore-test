@@ -1,63 +1,92 @@
 <div class="container">
-<form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)" class="text-center">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)" class="text-center">
+    <div class="jumbotron">
+      <h1 class="display-5 mb-3">Awesome Word Counter</h1>
+      <div
+        class="btn-group"
+        role="group"
+        aria-label="Basic radio toggle button group"
+      >
+        <input
+          class="btn-check"
+          id="url"
+          type="radio"
+          value="url"
+          name="source"
+          formControlName="source"
+          (change)="resetFormAndCleatTable()"
+        />
 
-  <div class="jumbotron">
-    <h1 class="display-5">Word Counter</h1>
-    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input
+          type="radio"
+          class="btn-check"
+          formControlName="source"
+          (change)="resetFormAndCleatTable()"
+          name="source"
+          id="input"
+          value="input"
+        />
+        <label class="btn btn-outline-primary" for="input">Input</label>
 
-      <input
-      class="btn-check"
-      id="url"
-      type="radio"
-      value="url"
-      name="source"
-      formControlName="source"
-      (change)="resetFormAndCleatTable()"
-    />
-  
-      <input type="radio" class="btn-check"  formControlName="source"  (change)="resetFormAndCleatTable()" name="source" id="input"  value="input">
-      <label class="btn btn-outline-primary" for="input">Input</label>
-    
-      <input type="radio" class="btn-check"  formControlName="source"  (change)="resetFormAndCleatTable()" name="source" id="url" value="url" >
-      <label class="btn btn-outline-primary" for="url">URL</label>
-     
-      
-    </div>
+        <input
+          type="radio"
+          class="btn-check"
+          formControlName="source"
+          (change)="resetFormAndCleatTable()"
+          name="source"
+          id="url"
+          value="url"
+        />
+        <label class="btn btn-outline-primary" for="url">URL</label>
+      </div>
 
-    <div class="mb-3 mt-5"  *ngIf="f['source'].value === 'input'">
-      <textarea formControlName="text" rows="6" class="form-control" placeholder="Input/Paste your text here"> </textarea>
-    </div>
+      <div class="mb-3 mt-5" *ngIf="f['source'].value === 'input'">
+        <textarea
+          formControlName="text"
+          rows="6"
+          class="form-control"
+          placeholder="Input/Paste your text here"
+        >
+        </textarea>
+      </div>
 
-    <div class="mb-3 mt-5"  *ngIf="f['source'].value === 'url'">
-      <input formControlName="url" class="form-control" placeholder="Enter URL here" />  
-      <div *ngIf="(f.url.touched  || isSubmitting) && f.url.invalid" class="alert alert-danger">
-        <div *ngIf="f.url.errors?.required">Please provide url</div>
-        <div *ngIf="f.url.errors?.pattern">Please provide valid url</div>
+      <div class="mb-3 mt-5" *ngIf="f['source'].value === 'url'">
+        <input
+          formControlName="url"
+          class="form-control"
+          placeholder="Enter URL here"
+        />
+        <div
+          *ngIf="(f.url.touched || isSubmitting) && f.url.invalid"
+          class="alert alert-danger"
+        >
+          <div *ngIf="f.url.errors?.required">Please provide url</div>
+          <div *ngIf="f.url.errors?.pattern">Please provide valid url</div>
+        </div>
+      </div>
+
+      <div class="mb-3 mt-5">
+        <button class="btn btn-primary" type="submit" [disabled]="isBusy">
+          <span *ngIf="isBusy" class="spinner-border spinner-border-sm"></span>
+          <span *ngIf="isBusy"> Processing...</span>
+          <span *ngIf="!isBusy">Process</span>
+        </button>
       </div>
     </div>
+  </form>
 
-    <div class="mb-3 mt-5">
-      <button class="btn btn-primary" type="submit" [disabled]="isBusy">
-        <span *ngIf ="isBusy" class="spinner-border spinner-border-sm"  ></span>
-        <span  *ngIf ="isBusy"> Processing...</span>
-        <span  *ngIf ="!isBusy">Process</span>
-      </button>
-    </div>
-  </div>
-</form>
-
-<table class="table" *ngIf="result.length > 0">
-  <thead>
-    <tr>
-      <th scope="col">Word</th>
-      <th scope="col">Count</th>
-    </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let result of result">
-    <td>{{ result.word }}</td>
-    <td>{{ result.occurences }}</td>
-  </tr>
-</tbody>
-</table>
+  <table class="table" *ngIf="result.length > 0">
+    <thead>
+      <tr>
+        <th scope="col">Word</th>
+        <th scope="col">Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let result of result">
+        <td>{{ result.word }}</td>
+        <td>{{ result.occurences }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
